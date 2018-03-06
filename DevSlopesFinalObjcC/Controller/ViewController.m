@@ -2,6 +2,7 @@
 #import "HTTPService.h"
 #import "Video.h"
 #import "VideoCell.h"
+#import "VideoVC.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
@@ -56,11 +57,18 @@
     Video *video = [self.videoList objectAtIndex:indexPath.row];
     VideoCell *vidCell = (VideoCell*)cell;
     [vidCell updateUI:video];
-    
+   
 }
 
--(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    Video *video = [self.videoList objectAtIndex:indexPath.row];
+    [self performSegueWithIdentifier:@"tovideoVC" sender:video];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    VideoVC *vc = (VideoVC*)segue.destinationViewController;
+    Video *video = (Video*)sender;
+    vc.video = video;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
